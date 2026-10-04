@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090d1a">
+<title>Long Distance Together</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#fff;background:radial-gradient(circle at 20% 10%,#30276a 0,transparent 35%),radial-gradient(circle at 85% 85%,#123b52 0,transparent 30%),linear-gradient(145deg,#090d1a,#111a2b);display:flex;align-items:center;justify-content:center;padding:24px}.card{width:min(920px,100%);padding:42px;border:1px solid rgba(255,255,255,.14);border-radius:28px;background:rgba(8,12,27,.72);box-shadow:0 24px 80px rgba(0,0,0,.35);backdrop-filter:blur(16px)}.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:12px;opacity:.65}.title{font-size:clamp(38px,8vw,78px);line-height:1;margin:12px 0}.subtitle{font-size:18px;opacity:.72;margin-bottom:34px}.timer{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.unit{padding:22px 12px;text-align:center;border-radius:18px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08)}.num{font-size:clamp(30px,6vw,54px);font-weight:700;font-variant-numeric:tabular-nums}.label{font-size:12px;text-transform:uppercase;letter-spacing:.12em;opacity:.55;margin-top:4px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}.stat{padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.05)}.stat b{display:block;font-size:22px;margin-top:4px;font-variant-numeric:tabular-nums}.clock{margin-top:24px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1);font-size:14px;opacity:.72}.note{margin-top:18px;font-size:12px;opacity:.45}@media(max-width:620px){.card{padding:28px 18px}.timer{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="eyebrow">Long Distance</div>
+<h1 class="title">Long Distance Together</h1>
+<div class="subtitle">Every second counts.</div>
+<section class="timer" aria-label="Elapsed time">
+<div class="unit"><div class="num" id="days">0</div><div class="label">Days</div></div>
+<div class="unit"><div class="num" id="hours">00</div><div class="label">Hours</div></div>
+<div class="unit"><div class="num" id="minutes">00</div><div class="label">Minutes</div></div>
+<div class="unit"><div class="num" id="seconds">00</div><div class="label">Seconds</div></div>
+</section>
+<section class="stats">
+<div class="stat">Total hours<b id="totalHours">0</b></div>
+<div class="stat">Total days<b id="totalDays">0</b></div>
+</section>
+<div class="clock" id="ist">Current IST: —</div>
+<div class="note">Started 9 February 2025 at 12:00 AM IST • Runs entirely in your browser • No account or server timer required</div>
+</main>
+<script>
+const start=new Date("2025-02-09T00:00:00+05:30");
+const pad=n=>String(n).padStart(2,"0");
+function update(){
+ const diff=Math.max(0,Date.now()-start.getTime());
+ const totalSeconds=Math.floor(diff/1000),days=Math.floor(totalSeconds/86400),hours=Math.floor(totalSeconds%86400/3600),minutes=Math.floor(totalSeconds%3600/60),seconds=totalSeconds%60;
+ document.getElementById("days").textContent=days;
+ document.getElementById("hours").textContent=pad(hours);
+ document.getElementById("minutes").textContent=pad(minutes);
+ document.getElementById("seconds").textContent=pad(seconds);
+ document.getElementById("totalHours").textContent=(diff/3600000).toLocaleString(undefined,{maximumFractionDigits:3});
+ document.getElementById("totalDays").textContent=(diff/86400000).toLocaleString(undefined,{maximumFractionDigits:3});
+ document.getElementById("ist").textContent="Current IST: "+new Intl.DateTimeFormat("en-IN",{timeZone:"Asia/Kolkata",dateStyle:"full",timeStyle:"medium"}).format(new Date());
+}
+update();setInterval(update,250);
+</script>
+</body>
+</html>
